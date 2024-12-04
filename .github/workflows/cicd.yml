@@ -14,17 +14,17 @@ jobs:
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Build Docker Image
-        run: docker build -t aanukool23/ChatWave .
+        run: docker build -t aanukool23/chatwave .
       - name: Publish image to docker hub
-        run: docker push aanukool23/ChatWave:latest   
+        run: docker push aanukool23/chatwave:latest   
 
   deploy: 
     needs: build
     runs-on: self-hosted    
     steps:
       - name: Pull image from docker hub
-        run: docker pull aanukool23/ChatWave:latest 
+        run: docker pull aanukool23/chatwave:latest 
       - name: Delete Old Container
         run: docker rm -f reactContainer
       - name: Run docker container
-        run: docker run -d -p 3000:3000 --name reactContainer ChatWave/portfolio   
+        run: docker run -d -p 3000:3000 --name reactContainer chatwave/portfolio   
