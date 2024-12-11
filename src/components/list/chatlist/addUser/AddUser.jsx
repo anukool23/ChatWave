@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useUserStore } from "../../../../lib/userStore";
 
 const AddUser = () => {
-  const [user, setUSer] = useState(null);
+  const [user, setUser] = useState(null);
   const {currentUser}= useUserStore()
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ const AddUser = () => {
       const querySnapshot = await getDocs(q);
 
       if (!querySnapshot.empty) {
-        setUSer(querySnapshot.docs[0].data());
+        setUser(querySnapshot.docs[0].data());
       }
     } catch (err) {
       console.error(err.message);
@@ -34,7 +34,7 @@ const AddUser = () => {
       const newChatRef = doc(chatRef);
       await setDoc(newChatRef,{
         createdAt:serverTimestamp(),
-        message:[]
+        messages:[]
       })
 
       await updateDoc(doc(userChatsRef,user.id),{

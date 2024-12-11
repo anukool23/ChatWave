@@ -4,15 +4,17 @@ import AddUser from './addUser/AddUser'
 import './chatList.css'
 import { useEffect, useState } from 'react'
 import { db } from '../../../lib/firebase'
+import { useChatStore } from '../../../lib/chatStore'
 
 const Chatlist = () => {
   const [addMode,setAddMode]= useState(false)
   const [chats,setChats]= useState([])
 
   const {currentUser}= useUserStore()
+  const {chatId,changeChat} = useChatStore()
 
   useEffect(()=>{
-    const unSub = onSnapshot(doc(db,"userChats",currentUser.id),async (res)=>{
+    const unSub = onSnapshot(doc(db,"userchats",currentUser.id),async (res)=>{
       const items = res.data().chats;
       const promises = items.map(async(item)=>{
         const userDocRef =doc(db,"users",item.receiverId);
@@ -29,6 +31,9 @@ const Chatlist = () => {
 
   },[currentUser.id])
 
+  const handleSelect = async (chat)=>{
+    changeChat(chat.chatId,chat.user)
+  }
 
   return (
     <div className='chatList'>
@@ -44,7 +49,7 @@ const Chatlist = () => {
         />
       </div>
       {chats.map((chat)=>(
-      <div className="item" key={chat.chatId}>
+      <div className="item" key={chat.chatId} onClick={(()=>handleSelect(chat))}>
         <img src={chat.user.avatar || "./avatar.png"} alt="" />
         <div className="texts">
           <span>{chat.user.username}</span>
