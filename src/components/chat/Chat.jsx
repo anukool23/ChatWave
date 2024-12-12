@@ -151,7 +151,7 @@ const Chat = () => {
         <input
           type="text"
           value={text}
-          placeholder={(isCurrentUserBlocked ||isReceiverBlocked) ? "You are blocked" : "Type your Message..."}
+          placeholder={(isCurrentUserBlocked ||isReceiverBlocked) ? "Can't send messages" : "Type your Message..."}
           onChange={(e) => SetText(e.target.value)}
           disabled={isCurrentUserBlocked ||isReceiverBlocked}
         />
